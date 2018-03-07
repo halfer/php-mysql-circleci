@@ -1,0 +1,36 @@
+# PHP CircleCI 2.0 configuration file
+#
+# Check https://circleci.com/docs/2.0/language-php/ for more details
+#
+version: 2
+jobs:
+  build:
+    docker:
+      # specify the version you desire here
+      - image: circleci/php:7.2-apache-stretch-node-browsers
+        environment:
+          MYSQL_ROOT_PASSWORD: password
+          MYSQL_HOST: 127.0.0.1
+
+      # Specify service dependencies here if necessary
+      # CircleCI maintains a library of pre-built images
+      # documented at https://circleci.com/docs/2.0/circleci-images/
+      # - image: circleci/mysql:9.4
+
+    steps:
+      - checkout
+
+      - run: sudo apt-get install -y libzip-dev
+      - run: sudo docker-php-ext-install zip
+      - run: sudo apt-get update
+      - run: sudo apt-get install -y zlib1g-dev libicu-dev g++
+      - run: sudo docker-php-ext-configure intl
+      - run: sudo docker-php-ext-install intl
+      - run: sudo docker-php-ext-install pdo_mysql
+      - run: sudo apt-get install mysql-client
+      - run: sudo debconf-set-selections <<< 'mysql-server mysql-server/root_password password password'
+      - run: sudo debconf-set-selections <<< 'mysql-server mysql-server/root_password_again password password'
+      - run: sudo apt-get -y install mysql-server
+
+      # run tests!
+      - run: php connect.php
