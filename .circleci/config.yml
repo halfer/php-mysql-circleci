@@ -25,6 +25,7 @@ jobs:
             sudo apt-get install -y libzip-dev
             sudo apt-get install -y zlib1g-dev libicu-dev g++
             sudo apt-get install mysql-client
+            apt-cache search php.+mysql
             sudo apt-get install php7-mysql
       - run: sudo docker-php-ext-install zip
       - run: sudo docker-php-ext-configure intl
