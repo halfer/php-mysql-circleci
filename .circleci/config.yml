@@ -31,9 +31,6 @@ jobs:
       - run: sudo docker-php-ext-install pdo_mysql
       - run: sudo sh -c "echo 'pdo_mysql.default_socket=/var/run/mysqld/mysqld.sock' > /usr/local/etc/php/conf.d/pdo.ini"
 
-      - run: export DEBIAN_FRONTEND=noninteractive
-      - run: sudo debconf-set-selections <<< 'mysql-server mysql-server/root_password password password'
-      - run: sudo debconf-set-selections <<< 'mysql-server mysql-server/root_password_again password password'
       - run: sudo apt-get -y install mysql-server
 
       - run: sudo service mysql start
