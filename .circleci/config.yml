@@ -20,23 +20,34 @@ jobs:
     steps:
       - checkout
       - run:
+          name: Install things we need
           command: |
             sudo apt-get update
             sudo apt-get install -y libzip-dev
             sudo apt-get install -y zlib1g-dev libicu-dev g++
             sudo apt-get install mysql-client
-      - run: sudo docker-php-ext-install zip
-      - run: sudo docker-php-ext-configure intl
-      - run: sudo docker-php-ext-install intl
-      - run: sudo docker-php-ext-install pdo_mysql
+      - run:
+        name: Install PHP exts
+        command: |
+          sudo docker-php-ext-install zip
+          sudo docker-php-ext-configure intl
+          sudo docker-php-ext-install intl
+          sudo docker-php-ext-install pdo_mysql
+
       - run: sudo sh -c "echo 'pdo_mysql.default_socket=/var/run/mysqld/mysqld.sock' > /usr/local/etc/php/conf.d/pdo.ini"
 
       - run: sudo apt-get -y install mysql-server
 
-      - run: sudo service mysql start
-      - run: sleep 2
-      - run: ps aux | grep mysql
-      - run: sudo mysql -u root -e "CREATE user myuser IDENTIFIED BY 'password';"
+      - run:
+        name: Start database server
+        command: |
+          sudo service mysql start
+          sleep 2
+          ps aux | grep mysql
+      - run:
+        name: Create non-admin user
+        command: |
+          sudo mysql -u root -e "CREATE user myuser IDENTIFIED BY 'password';"
 
       # run tests!
       - run: php connect.php
