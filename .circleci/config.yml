@@ -35,6 +35,7 @@ jobs:
       - run: sudo debconf-set-selections <<< 'mysql-server mysql-server/root_password password password'
       - run: sudo debconf-set-selections <<< 'mysql-server mysql-server/root_password_again password password'
       - run: sudo apt-get -y install mysql-server
+      - run: sudo mysql -u root -e "CREATE user myuser IDENTIFIED BY 'password';"
 
       - run: sleep 2
       - run: sudo service mysql start
