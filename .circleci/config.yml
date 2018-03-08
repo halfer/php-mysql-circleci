@@ -49,6 +49,6 @@ jobs:
             sudo mysql -u root -e "CREATE user myuser IDENTIFIED BY 'password';"
 
       - run:
-        name: Run tests
-        command: |
-          php connect.php
+          name: Run tests
+          command: |
+            php connect.php
