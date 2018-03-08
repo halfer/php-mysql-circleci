@@ -33,6 +33,8 @@ jobs:
       - run: sudo debconf-set-selections <<< 'mysql-server mysql-server/root_password password password'
       - run: sudo debconf-set-selections <<< 'mysql-server mysql-server/root_password_again password password'
       - run: sudo apt-get -y install mysql-server
+      - run: sleep 2
+      - run: ps aux | grep mysql
 
       # run tests!
       - run: php connect.php
