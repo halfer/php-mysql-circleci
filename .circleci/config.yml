@@ -29,7 +29,7 @@ jobs:
       - run: sudo docker-php-ext-configure intl
       - run: sudo docker-php-ext-install intl
       - run: sudo docker-php-ext-install pdo_mysql
-      - run: sudo echo 'pdo_mysql.default_socket=/var/run/mysqld/mysqld.sock' > /usr/local/etc/php/conf.d/pdo.ini
+      - run: sudo sh -c "echo 'pdo_mysql.default_socket=/var/run/mysqld/mysqld.sock' > /usr/local/etc/php/conf.d/pdo.ini"
       - run: sudo debconf-set-selections <<< 'mysql-server mysql-server/root_password password password'
       - run: sudo debconf-set-selections <<< 'mysql-server mysql-server/root_password_again password password'
       - run: sudo apt-get -y install mysql-server
