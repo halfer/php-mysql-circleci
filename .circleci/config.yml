@@ -26,6 +26,7 @@ jobs:
             sudo apt-get install -y libzip-dev
             sudo apt-get install -y zlib1g-dev libicu-dev g++
             sudo apt-get install mysql-client
+            sudo apt-get -y install mysql-server
       - run:
           name: Install PHP exts
           command: |
@@ -35,8 +36,6 @@ jobs:
             sudo docker-php-ext-install pdo_mysql
 
       - run: sudo sh -c "echo 'pdo_mysql.default_socket=/var/run/mysqld/mysqld.sock' > /usr/local/etc/php/conf.d/pdo.ini"
-
-      - run: sudo apt-get -y install mysql-server
 
       - run:
           name: Start database server
@@ -49,5 +48,7 @@ jobs:
           command: |
             sudo mysql -u root -e "CREATE user myuser IDENTIFIED BY 'password';"
 
-      # run tests!
-      - run: php connect.php
+      - run:
+        name: Run tests
+        command: |
+          php connect.php
